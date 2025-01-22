@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pago de Reserva - K1 Speed</title>
+    <link href="style.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 font-sans">
+    <header class="bg-red-600 text-white p-4">
+        <h1 class="text-center text-3xl font-bold">Pago de Reserva</h1>
+    </header>
+
+    <main class="container mx-auto my-8 p-4 bg-white shadow-md rounded">
+        <h2 class="text-2xl font-bold mb-4 text-center">Detalles de tu Reserva</h2>
+        <div id="reservationDetails" class="space-y-4">
+            <p class="text-gray-700 font-semibold">Nombre: <span id="name"></span></p>
+            <p class="text-gray-700 font-semibold">Correo Electrónico: <span id="email"></span></p>
+            <p class="text-gray-700 font-semibold">Número de Participantes: <span id="participants"></span></p>
+            <p class="text-gray-700 font-semibold">Fecha: <span id="date"></span></p>
+            <p class="text-gray-700 font-semibold">Horario: <span id="time"></span></p>
+            <p class="text-gray-700 font-semibold">Costo Total: <span id="cost"></span></p>
+            <p class="text-gray-700 font-semibold">Membresías:</p>
+            <ul id="membershipList" class="list-disc pl-8"></ul>
+        </div>
+        <button id="payButton" class="bg-green-600 text-white px-4 py-2 rounded font-bold w-full hover:bg-green-700 mt-6">Proceder al Pago</button>
+    </main>
+
+    <footer class="bg-gray-800 text-white text-center py-4 mt-8">
+        <p>&copy; 2025 K1 Speed. Todos los Derechos Reservados.</p>
+    </footer>
+
+    <script>
+        // Obtener parámetros de la URL
+        const urlParams = new URLSearchParams(window.location.search);
+        document.getElementById('name').textContent = urlParams.get('name');
+        document.getElementById('email').textContent = urlParams.get('email');
+        document.getElementById('participants').textContent = urlParams.get('participants');
+        document.getElementById('date').textContent = urlParams.get('date');
+        document.getElementById('time').textContent = urlParams.get('time');
+
+        // Calcular y mostrar el costo total
+        const participants = parseInt(urlParams.get('participants')) || 0;
+        const reservationCostPerPerson = 100;
+        const totalCost = participants * reservationCostPerPerson;
+        document.getElementById('cost').textContent = `$${totalCost}`;
+
+        // Mostrar los números de membresía
+        const membershipList = document.getElementById('membershipList');
+        for (let i = 1; i <= participants; i++) {
+            const membership = urlParams.get(`membership_${i}`);
+            const listItem = document.createElement('li');
+            listItem.textContent = `Participante ${i}: ${membership || 'No ingresado'}`;
+            membershipList.appendChild(listItem);
+        }
+
+        // Agregar funcionalidad al botón de pago
+        document.getElementById('payButton').addEventListener('click', () => {
+            alert('Redirigiendo al portal de pago...');
+            // Aquí puedes redirigir a una pasarela de pago real
+        });
+    </script>
+</body>
+</html>
